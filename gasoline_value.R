@@ -16,7 +16,8 @@ file_url <-
   
 file_url <- paste0("http://www.enecho.meti.go.jp/statistics/petroleum_and_lpgas/pl007/",
                    file_url)  
-tmp <- tempfile(fileext = ".xls")
+#tmp <- tempfile(fileext = ".xls")
+tmp <- paste0(getwd(), "/gasoline_prices.xls")
 download.file(url = file_url, destfile = tmp, mode = "wb")
 
 # -----------------------
