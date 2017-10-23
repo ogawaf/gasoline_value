@@ -39,7 +39,9 @@ latest_survey_date <-
 # レギュラーガソリンの価格推移
 ggplot(gasoline) +
   geom_path(aes(x = 調査日, y = 全国)) +
-  labs(title = paste0("これまでのガソリン価格の推移   最新調査日：", latest_survey_date))
+  scale_x_date(date_breaks = "2 year") +
+  labs(title = paste0("これまでのガソリン価格の推移   最新調査日：", latest_survey_date)) +
+  theme(axis.text.x = element_text(angle = 30, vjust = .5))
 ggsave("change_in_gasoline_prices.png")
 
 # 直近一か月のガソリン価格の推移
