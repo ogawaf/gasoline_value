@@ -4,6 +4,7 @@ library(readxl)
 library(readr)
 library(ggplot2)
 library(dplyr)
+theme_set(theme_bw())
 # -----------------------
 # ファイルのダウンロード
 # -----------------------
@@ -57,3 +58,15 @@ gasoline %>%
   theme(axis.text.x = element_text(angle = 30, vjust = .5))
 ggsave("change_in_gasoline_prices(latest_1year).png")
 
+gasoline %>% 
+  mutate(inc_rate_zenkoku = 全国/dplyr::lag(全国)) %>% 
+  arrange(desc(調査日)) %>% 
+  slice(1:52) %>% 
+  ggplot(aes(x = 調査日, y = inc_rate_zenkoku)) +
+  geom_path() +
+  geom_point() +
+  geom_abline(slope = 0, intercept = 1, linetype = 2) + 
+  scale_x_date(date_breaks = "4 week") +
+  labs(title = paste0("直近52週(約1年)のガソリン価格の推移  最新調査日：", latest_survey_date))  +
+  theme(axis.text.x = element_text(angle = 30, vjust = .5))
+ggsave("increase_rate_in_gasoline_prices(latest_1year).png")
