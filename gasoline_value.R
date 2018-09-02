@@ -71,3 +71,13 @@ gasoline %>%
        y = "前週からの増加率")  +
   theme(axis.text.x = element_text(angle = 30, vjust = .5))
 ggsave("increase_rate_in_gasoline_prices(latest_1year).png")
+
+gasoline %>% 
+  gather(-c(1:2), key = area, value = price) %>% 
+  filter(!grepl("税", area)) %>% 
+  filter(調査日 > lubridate::as_date(Sys.time())-365) %>% 
+  ggplot(aes(調査日, price, group = area)) + 
+  geom_line(color = "lightgrey") +
+  geom_line(data = . %>% filter(area == "全国"), aes(color = "全国")) +
+  labs(color="", ylab = "レギュラーガソリン価格 (円)",subtitle="グレーは全国各地のガソリン価格を表す")
+ggsave("gasoline_prices(latest_1year).png")
